@@ -1,11 +1,6 @@
-from typing import TYPE_CHECKING
-
 from sqlalchemy import Column, String
 from sqlmodel import SQLModel, Field, Relationship
 from enum import Enum
-
-if TYPE_CHECKING:
-    from models.consulta import Consulta
 
 #enum
 class Sexo(str, Enum):

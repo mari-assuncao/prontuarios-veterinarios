@@ -1,11 +1,5 @@
-from typing import TYPE_CHECKING
-
 from sqlalchemy import Column, String
 from sqlmodel import SQLModel, Field, Relationship
-
-if TYPE_CHECKING:
-    from models.veterinario import Veterinario
-    from models.consulta import Consulta
 
 
 class EspecialidadeBase(SQLModel):
