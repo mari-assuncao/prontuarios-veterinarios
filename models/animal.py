@@ -2,6 +2,8 @@ from sqlalchemy import Column, String
 from sqlmodel import SQLModel, Field, Relationship
 from enum import Enum
 
+from models import Tutor, Consulta
+
 #enum
 class Sexo(str, Enum):
     MASCULINO = "M"
@@ -23,7 +25,7 @@ class AnimalBase(SQLModel):
     nome: str = Field(min_length=3, max_length=50, index=True)
     especie: Especie = Field(default=None, index=True)
     raca: str = Field(min_length=2, max_length=50, index=True)
-    sexo: Sexo = Field(sa_column=Column(String(1), index=True)) # reposta so pode haver um caractere
+    sexo: Sexo
     ano_nascimento: int | None = Field(default=None, ge=2000) # ano precisa ser maior ou igual a 1900
     peso: float = Field(gt=0, le=200) # peso precisa ser maior que 0 e menor que 200
     porte: Porte = Field(default=None, min_length=1, max_length=10)
@@ -32,7 +34,8 @@ class AnimalBase(SQLModel):
 
 class Animal(AnimalBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    # fzr relacionamento com tutor, vet e consulta
+    # relacionamento com tutor e consulta
+    consultas: list["Consulta"] = Relationship(back_populates="animal")
 
 class AnimalCreate(AnimalBase):
     pass

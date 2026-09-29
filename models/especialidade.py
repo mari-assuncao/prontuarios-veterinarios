@@ -1,6 +1,8 @@
 from sqlalchemy import Column, String
 from sqlmodel import SQLModel, Field, Relationship
 
+from models import Veterinario, Consulta
+
 
 class EspecialidadeBase(SQLModel):
     nome: str = Field(min_length=3, 
@@ -13,6 +15,11 @@ class EspecialidadeBase(SQLModel):
 class Especialidade(EspecialidadeBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     # fzr relacionamento com vet
+    veterinario: list["Veterinario"] = Relationship(
+        back_populates="especialidades",
+        link_model=VeterinarioEspecialidade
+    )
+    consultas: list["Consulta"] = Relationship(back_populates="especialidade")
 
 
 class EspecialidadeCreate(EspecialidadeBase):
