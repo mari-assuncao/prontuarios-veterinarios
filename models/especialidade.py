@@ -1,7 +1,12 @@
-from sqlalchemy import Column, String
+from typing import TYPE_CHECKING
+
 from sqlmodel import SQLModel, Field, Relationship
 
-from models import Veterinario, Consulta
+from models.veterinario_especialidade import VeterinarioEspecialidade
+
+if TYPE_CHECKING:
+    from models.veterinario import Veterinario
+    from models.consulta import Consulta
 
 
 class EspecialidadeBase(SQLModel):
@@ -14,8 +19,7 @@ class EspecialidadeBase(SQLModel):
 
 class Especialidade(EspecialidadeBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
-    # fzr relacionamento com vet
-    veterinario: list["Veterinario"] = Relationship(
+    veterinarios: list["Veterinario"] = Relationship(
         back_populates="especialidades",
         link_model=VeterinarioEspecialidade
     )
